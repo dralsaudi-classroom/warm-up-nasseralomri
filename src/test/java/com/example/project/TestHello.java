@@ -2,29 +2,29 @@ package com.example.project;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
 public class TestHello {
 
-   @Test
-   public void testHelloWorld()
-   {
-     PrintStream originalOut = System.out;
-     ByteArrayOutputStream bos = new ByteArrayOutputStream();
-     System.setOut(new PrintStream(bos));
+    @Test
+    public void testHelloWorld() {
+        PrintStream originalOut = System.out;
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(bos));
 
-     // action
-     Hello.main(null);
+        try {
+            // Action: Run Hello.main
+            Hello.main(null);
 
-     // assertion
-     assertEquals("Hello world!\n", bos.toString());
-
-     // undo the binding in System
-     System.setOut(originalOut);
-   }
+            // Assertion: Check if the output is "Hello world!\n"
+            assertEquals("Hello world!" + System.lineSeparator(), bos.toString());
+        } finally {
+            // Reset System.out
+            System.setOut(originalOut);
+        }
+    }
 }
+
